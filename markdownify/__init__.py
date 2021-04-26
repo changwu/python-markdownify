@@ -244,7 +244,7 @@ class MarkdownConverter(object):
 
     def convert_img(self, el, text, convert_as_inline):
         alt = el.attrs.get('alt', None) or ''
-        src = el.attrs.get('src', None) or ''
+        src = el['src']or ''
         title = el.attrs.get('title', None) or ''
         title_part = ' "%s"' % title.replace('"', r'\"') if title else ''
         if convert_as_inline:
