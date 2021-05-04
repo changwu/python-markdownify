@@ -174,7 +174,7 @@ class MarkdownConverter(object):
         prefix, suffix, text = chomp(text)
         if not text:
             return ''
-        return '%s%s%s%s%s ' % (prefix, em_tag, text, em_tag, suffix)
+        return ' %s%s%s%s%s ' % (prefix, em_tag, text, em_tag, suffix)
 
     def convert_hn(self, n, el, text, convert_as_inline):
         if convert_as_inline:
@@ -240,19 +240,18 @@ class MarkdownConverter(object):
         prefix, suffix, text = chomp(text)
         if not text:
             return ''
-        return '%s%s%s%s%s ' % (prefix, strong_tag, text, strong_tag, suffix)
+        return ' %s%s%s%s%s ' % (prefix, strong_tag, text, strong_tag, suffix)
 
     def convert_img(self, el, text, convert_as_inline):
         alt = el.attrs.get('alt', None) or ''
         src = el.attrs.get('src', None) or ''
-        if src.startswith('data'):
+        if len(src)==0:
             src = el.attrs.get('data-src', None) or ''
         title = el.attrs.get('title', None) or ''
-        title_part = ' "%s"' % title.replace('"', r'\"') if title else ''
+        title_part = ' "%s"' % title.replace('"', r'\"')
         if convert_as_inline:
             return alt
-
-        return '![%s](%s%s)' % (alt, src, title_part) if src!='' else ''
+        return '![%s](%s%s)' % (alt, src, title_part) if len(src)>0 else ''
 
 
 def markdownify(html, **options):
